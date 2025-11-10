@@ -46,7 +46,7 @@ try {
     $contraseña_hashed = !empty($contraseña) ? password_hash($contraseña, PASSWORD_DEFAULT) : null;
 
     // ✅ Se añadió 'domicilio' en la consulta SQL
-    $sql = "INSERT INTO users (foto, nombre, apellidos, edad, domicilio, celular, horario, correo, contrasea, fecha_nacimiento, equipo, registro_facial) 
+    $sql = "INSERT INTO users (foto, nombre, apellidos, edad, domicilio, celular, horario, correo, contraseña, fecha_nacimiento, equipo, registro_facial) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
