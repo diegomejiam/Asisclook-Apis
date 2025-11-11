@@ -1,9 +1,8 @@
 <?php
 /*
-Este script recibe datos JSON para registrar un nuevo usuario en la base de datos 'asistapp'. 
-Incluye el campo 'domicilio' además de los datos personales, de contacto y de registro facial. 
-Valida que el campo 'nombre' esté presente, hashea la contraseña y guarda los datos en la tabla 'users'. 
-Responde en formato JSON con el ID insertado o un mensaje de error.
+Este script recibe datos JSON para registrar un nuevo usuario en la base de datos 'asistapp'.
+Incluye el campo 'domicilio' además de los datos personales, de contacto y de registro facial.
+Ya no requiere confirmar la contraseña.
 */
 header("Content-Type: application/json; charset=UTF-8");
 error_reporting(E_ALL);
@@ -29,11 +28,11 @@ try {
     $nombre = trim($data['nombre'] ?? '');
     $apellidos = trim($data['apellidos'] ?? '');
     $edad = intval($data['edad'] ?? 0);
-    $domicilio = trim($data['domicilio'] ?? ''); // ✅ nuevo campo
+    $domicilio = trim($data['domicilio'] ?? '');
     $celular = trim($data['celular'] ?? '');
     $horario = trim($data['horario'] ?? '');
     $correo = trim($data['correo'] ?? '');
-    $contraseña = trim($data['contraseña'] ?? '');
+    $contraseña = trim($data['contraseña'] ?? ''); // ✅ solo una contraseña
     $fecha_nacimiento = trim($data['fechaNacimiento'] ?? '');
     $equipo = trim($data['equipo'] ?? '');
     $registro_facial = $data['registro_facial'] ?? '';
@@ -42,18 +41,20 @@ try {
         throw new Exception("El nombre es obligatorio.");
     }
 
-    // Hash de la contraseña
-    $contraseña_hashed = !empty($contraseña) ? password_hash($contraseña, PASSWORD_DEFAULT) : null;
+    if (empty($contraseña)) {
+        throw new Exception("La contraseña no puede estar vacía.");
+    }
 
-    // ✅ Se añadió 'domicilio' en la consulta SQL
-    $sql = "INSERT INTO users (foto, nombre, apellidos, edad, domicilio, celular, horario, correo, contraseña, fecha_nacimiento, equipo, registro_facial) 
+    // ✅ Hash de la contraseña (única)
+    $contraseña_hashed = password_hash($contraseña, PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO users (foto, nombre, apellidos, edad, domicilio, celular, horario, correo, contraseña, fecha_nacimiento, equipo, registro_facial)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
         throw new Exception("Error en la consulta: " . $conn->error);
     }
 
-    // ✅ Se añadió $domicilio en el bind_param
     $stmt->bind_param("ssssssssssss",$foto,$nombre,$apellidos,$edad,$domicilio,$celular,$horario,$correo,$contraseña_hashed,$fecha_nacimiento,$equipo,$registro_facial);
 
     if ($stmt->execute()) {
