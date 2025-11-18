@@ -3,6 +3,12 @@
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 
+
+/*$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "asistapp";*/
+
     $servername = "localhost";
     $username = "ivanportador";
     $password = "Mintario153";

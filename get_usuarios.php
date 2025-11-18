@@ -6,10 +6,16 @@ También maneja errores de conexión a la base de datos.
 */
 
 // Configuración de la base de datos
+
+/*$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "asistapp";*/
+
 $servername = "localhost";
 $username = "ivanportador";
 $password = "Mintario153";
-$dbname = "asistapp";// Nombre de tu base de datos
+$dbname = "asistapp";  // Nombre de tu base de datos
 
 // Crea la conexión
 $conn = new mysqli($servername, $username, $password, $dbname);

@@ -11,6 +11,11 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Conexión
+/*$servername = "localhost";
+$dbusername = "root";
+$dbpassword = "";
+$dbname = "asistapp";*/
+
 $servername = "localhost";
 $dbusername = "ivanportador";
 $dbpassword = "Mintario153";

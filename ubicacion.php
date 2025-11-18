@@ -6,6 +6,11 @@ en la tabla 'ubicaciones'. Si ocurre algún error en la conexión o en la inserc
 un mensaje de error en formato JSON.
 */
 
+/*$host = "localhost";
+$user = "root";
+$pass = "";
+$db = "asistapp";*/
+
 $host = "localhost";
 $dbname = "asistapp";
 $user = "ivanportador";

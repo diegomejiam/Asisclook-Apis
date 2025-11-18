@@ -1,5 +1,12 @@
 <?php
 // --- Conexión a la base de datos ---
+
+/*$host = "localhost";
+$user = "root";
+$pass = "";
+$db = "asistapp";*/
+
+
 $host = 'localhost';
 $db = 'asistapp';
 $user = 'ivanportador';
