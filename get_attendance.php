@@ -29,36 +29,29 @@ try {
     exit;
 }
 
-$userId = $_GET['user_id'] ?? null;
 $year = $_GET['year'] ?? date('Y');
 $month = $_GET['month'] ?? "Todos";
 
-if (!$userId) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Falta el ID de usuario']);
-    exit;
-}
-
+// Siempre consulta referenced_id = -1 (modo actual)
 if ($month === "Todos") {
     $stmt = $pdo->prepare("
         SELECT fecha_registro AS date, hora_registro AS time, tipo AS type
         FROM attendance
-        WHERE referenced_id = ? AND YEAR(fecha_registro) = ?
+        WHERE referenced_id = -1 AND YEAR(fecha_registro) = ?
         ORDER BY fecha_registro DESC, hora_registro DESC
     ");
-    $stmt->execute([$userId, $year]);
+    $stmt->execute([$year]);
 
 } else {
     $stmt = $pdo->prepare("
         SELECT fecha_registro AS date, hora_registro AS time, tipo AS type
         FROM attendance
-        WHERE referenced_id = ? 
+        WHERE referenced_id = -1
         AND YEAR(fecha_registro) = ?
         AND MONTH(fecha_registro) = ?
         ORDER BY fecha_registro DESC, hora_registro DESC
     ");
-
-    $stmt->execute([$userId, $year, $month]);
+    $stmt->execute([$year, $month]);
 }
 
 $records = $stmt->fetchAll();
